@@ -67,4 +67,24 @@ public class TicketServiceImpl implements TicketService {
         return reservedSeats;
     }
 
+public class TicketPaymentServiceImpl implements TicketPaymentService {
+    @Override
+    public void makePayment(Long accountId, int amount) {
+        // Assume the payment is successful without any defects
+        // Implement the logic to make the payment using an external payment provider
+        // For the purpose of this example, let's just print a message
+        System.out.println("Payment of amount £" + amount + " made from account ID: " + accountId);
+    }
+ }
+
+public class SeatReservationServiceImpl implements SeatReservationService {
+    @Override
+    public void reserveSeats(Long accountId, int numberOfSeats) {
+        // Assume the seat reservation is successful without any defects
+        // Implement the logic to reserve seats using an external seat reservation system
+        // For the purpose of this example, let's just print a message
+        System.out.println("Reserved " + numberOfSeats + " seats for account ID: " + accountId);
+    }
+ }
+    
 }
