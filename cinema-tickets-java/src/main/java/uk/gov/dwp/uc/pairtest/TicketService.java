@@ -9,11 +9,3 @@ public interface TicketService {
 
 }
 
-public interface TicketPaymentService {
-    void makePayment(Long accountId, int amount);
-}
-
-public interface SeatReservationService {
-    void reserveSeats(Long accountId, int numberOfSeats);
-}
-
