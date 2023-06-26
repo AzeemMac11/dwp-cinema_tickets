@@ -13,11 +13,24 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void purchaseTickets(Long accountId, TicketTypeRequest... ticketTypeRequests) throws InvalidPurchaseException {
-        // Calculate the amount and reserve seats based on ticket type and quantity
-        int infantCount = ticketTypeRequest.getInfantCount();
-        int childCount = ticketTypeRequest.getChildCount();
-        int adultCount = ticketTypeRequest.getAdultCount();
+    public void purchaseTickets(Long accountId, TicketTypeRequest...ticketTypeRequests) throws InvalidPurchaseException {
+        int infantCount = 0;
+        int childCount = 0;
+        int adultCount = 0;
+
+        // Calculate the counts based on the ticket type
+        for (TicketTypeRequest request : ticketTypeRequests) {
+            int noOfTickets = request.getNoOfTickets();
+            TicketTypeRequest.Type ticketType = request.getTicketType();
+
+            if (ticketType == TicketTypeRequest.Type.INFANT) {
+                infantCount += noOfTickets;
+            } else if (ticketType == TicketTypeRequest.Type.CHILD) {
+                childCount += noOfTickets;
+            } else if (ticketType == TicketTypeRequest.Type.ADULT) {
+                adultCount += noOfTickets;
+            }
+        }
 
         // Validate the ticket purchase request
         if (isValidPurchaseRequest(infantCount, childCount, adultCount)) {
@@ -66,6 +79,14 @@ public class TicketServiceImpl implements TicketService {
         // Infants do not require a seat reservation
         return reservedSeats;
     }
+
+    public interface TicketPaymentService {
+    void makePayment(Long accountId, int amount);
+}
+
+public interface SeatReservationService {
+    void reserveSeats(Long accountId, int numberOfSeats);
+}
 
 public class TicketPaymentServiceImpl implements TicketPaymentService {
     @Override
