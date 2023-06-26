@@ -1,5 +1,7 @@
 package uk.gov.dwp.uc.pairtest;
 
+import thirdparty.paymentgateway.TicketPaymentService;
+import thirdparty.seatbooking.SeatReservationService;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
 
@@ -44,7 +46,7 @@ public class TicketServiceImpl implements TicketService {
             paymentService.makePayment(accountId, totalAmount);
 
             // Make a seat reservation request to the SeatReservationService
-            reservationService.reserveSeats(accountId, numberOfSeats);
+            reservationService.reserveSeat(accountId, numberOfSeats);
         } else {
             throw new IllegalArgumentException("Invalid ticket purchase request.");
         }
@@ -80,32 +82,4 @@ public class TicketServiceImpl implements TicketService {
         return reservedSeats;
     }
 
-    public interface TicketPaymentService {
-    void makePayment(Long accountId, int amount);
-}
-
-public interface SeatReservationService {
-    void reserveSeats(Long accountId, int numberOfSeats);
-}
-
-public class TicketPaymentServiceImpl implements TicketPaymentService {
-    @Override
-    public void makePayment(Long accountId, int amount) {
-        // Assume the payment is successful without any defects
-        // Implement the logic to make the payment using an external payment provider
-        // For the purpose of this example, let's just print a message
-        System.out.println("Payment of amount £" + amount + " made from account ID: " + accountId);
-    }
- }
-
-public class SeatReservationServiceImpl implements SeatReservationService {
-    @Override
-    public void reserveSeats(Long accountId, int numberOfSeats) {
-        // Assume the seat reservation is successful without any defects
-        // Implement the logic to reserve seats using an external seat reservation system
-        // For the purpose of this example, let's just print a message
-        System.out.println("Reserved " + numberOfSeats + " seats for account ID: " + accountId);
-    }
- }
-    
 }
